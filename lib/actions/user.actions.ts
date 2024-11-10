@@ -3,14 +3,14 @@
 import { ID } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
-import { getUserByEmail, sendEmailOTP } from "./helpers";
+import { getUserByEmail, handleError, sendEmailOTP } from "./helpers";
 import { parseStringify } from "../utils";
+import { cookies } from "next/headers";
 
 type createAccountProps = {
   fullName: string;
   email: string;
 };
-
 export const createAccount = async ({
   fullName,
   email,
@@ -38,4 +38,27 @@ export const createAccount = async ({
   }
 
   return parseStringify({ accountId });
+};
+
+type varifyOtpProps = {
+  accountId: string;
+  password: string;
+};
+export const verifyOtp = async ({ accountId, password }: varifyOtpProps) => {
+  try {
+    const { account } = await createAdminClient();
+
+    const session = await account.createSession(accountId, password);
+
+    (await cookies()).set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    return parseStringify({ sessionId: session.$id });
+  } catch (error) {
+    handleError(error, "Failed to varify OTP");
+  }
 };

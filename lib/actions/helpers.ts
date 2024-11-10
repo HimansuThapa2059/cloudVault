@@ -2,7 +2,7 @@ import { ID, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 
-const handleOTPError = (error: unknown, message: string) => {
+export const handleError = (error: unknown, message: string) => {
   console.log(message);
   throw error;
 };
@@ -26,6 +26,6 @@ export const sendEmailOTP = async (email: string) => {
     const session = await account.createEmailToken(ID.unique(), email);
     return session.userId;
   } catch (error) {
-    handleOTPError(error, "Failed to send email OTP");
+    handleError(error, "Failed to send email OTP");
   }
 };
