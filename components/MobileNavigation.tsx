@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { navItems } from "@/constants";
 import { Button } from "./ui/button";
 import FileUploader from "./header/FileUploader";
+import { signOutUser } from "@/lib/actions/user.actions";
 
 type MobileNavigationProps = {
   ownerId: string;
@@ -31,7 +32,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
   fullName,
   avatar,
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const pathname = usePathname();
 
@@ -107,7 +108,9 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
             <Button
               className="mobile-sign-out-button"
               type="submit"
-              onClick={() => {}}
+              onClick={async () => {
+                await signOutUser();
+              }}
             >
               <Image
                 src="/icons/logout.svg"

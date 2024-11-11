@@ -1,12 +1,13 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
+import { Account, ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { getUserByEmail, handleError, sendEmailOTP } from "./helpers";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { avatarPlaceholderUrl } from "@/constants";
+import { redirect } from "next/navigation";
 
 type createAccountProps = {
   fullName: string;
@@ -78,4 +79,31 @@ export const getCurrentUser = async () => {
   if (user.total <= 0) return null;
 
   return parseStringify(user.documents[0]);
+};
+
+type signInUserProps = { email: string };
+export const signInUser = async ({ email }: signInUserProps) => {
+  try {
+    const existingUser = await getUserByEmail(email);
+
+    if (existingUser) {
+      await sendEmailOTP(email);
+      return parseStringify({ accountId: existingUser.accountId });
+    }
+  } catch (error) {
+    handleError(error, "Failed to sign in");
+  }
+  return parseStringify({ accountId: null, message: "User not found" });
+};
+
+export const signOutUser = async () => {
+  const { account } = await createSessionClient();
+  try {
+    await account.deleteSession("current");
+    (await cookies()).delete("appwrite-session");
+
+    redirect("/sign-in");
+  } catch (error) {
+    handleError(error, "Failed to sign out");
+  }
 };

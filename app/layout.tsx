@@ -10,7 +10,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "cloudVault",
-  description: "codeVault - The only cloud storage you need.",
+  description: "cloudVault - The only cloud storage you need.",
 };
 
 export default function RootLayout({
