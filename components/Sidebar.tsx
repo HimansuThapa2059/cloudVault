@@ -84,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ fullName, avatar, email }) => {
         />
         <div className="hidden lg:block">
           <p className="subtitle-2 capitalize">{fullName}</p>
-          <p className="caption truncate lg:max-w-[170px] xl:max-w-[200px]">
+          <p className="caption max-w-[85%] truncate">
             {email.charAt(0).toUpperCase() + email.slice(1)}
           </p>
         </div>
