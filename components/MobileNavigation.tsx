@@ -19,14 +19,14 @@ import FileUploader from "./header/FileUploader";
 import { signOutUser } from "@/lib/actions/user.actions";
 
 type MobileNavigationProps = {
-  ownerId: string;
+  $id: string;
   accountId: string;
   email: string;
   fullName: string;
   avatar: string;
 };
 const MobileNavigation: React.FC<MobileNavigationProps> = ({
-  ownerId,
+  $id: ownerId,
   accountId,
   email,
   fullName,
@@ -104,7 +104,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
           <Separator className="mb-4 bg-light-200/30" />
 
           <div className="flex flex-col justify-between gap-5 pb-5">
-            <FileUploader />
+            <FileUploader accountId={accountId} ownerId={ownerId} />
             <Button
               className="mobile-sign-out-button"
               type="submit"

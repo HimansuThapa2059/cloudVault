@@ -1,8 +1,8 @@
 import Header from "@/components/header/Header";
 import MobileNavigation from "@/components/MobileNavigation";
 import Sidebar from "@/components/Sidebar";
+import { Toaster } from "@/components/ui/toaster";
 import { getCurrentUser } from "@/lib/actions/user.actions";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -16,9 +16,11 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
       <Sidebar {...currentUser} />
       <div className="flex h-full flex-1 flex-col">
         <MobileNavigation {...currentUser} />
-        <Header />
+        <Header ownerId={currentUser.$id} accountId={currentUser.accountId} />
         <div className="main-content">{children}</div>
       </div>
+
+      <Toaster />
     </main>
   );
 };
