@@ -79,7 +79,7 @@ export const formatDateTime = (isoString: string | null | undefined) => {
   // Convert hours to 12-hour format
   hours = hours % 12 || 12;
   // Format the time and date parts
-  const time = `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
+  const time = `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
   const day = date.getDate();
   const monthNames = [
     "Jan",
