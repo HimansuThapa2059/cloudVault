@@ -7,7 +7,7 @@ declare interface ActionType {
 }
 
 declare interface SearchParamProps {
-  params?: Promise<SegmentParams>;
+  params?: Promise<any>;
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
