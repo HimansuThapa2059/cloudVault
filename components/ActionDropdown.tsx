@@ -24,7 +24,11 @@ import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import { renameFile, updateFileUsers } from "@/lib/actions/file.actions";
+import {
+  deleteFile,
+  renameFile,
+  updateFileUsers,
+} from "@/lib/actions/file.actions";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
@@ -59,7 +63,8 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           path,
         }),
       share: () => updateFileUsers({ fileId: file.$id, emails, path }),
-      //   delete: () => {}
+      delete: () =>
+        deleteFile({ fileId: file.$id, path, bucketFileId: file.bucketFileId }),
     };
     success = await actions[action.value as keyof typeof actions]();
     if (success) closeAllModals();
@@ -67,8 +72,6 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
   };
 
   const handleRemoveUser = async (email: string) => {
-    // remove user handling logic
-
     const updatedEmails = emails.filter((e) => e !== email);
 
     const success = await updateFileUsers({ fileId: file.$id, emails, path });
