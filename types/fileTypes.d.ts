@@ -25,7 +25,7 @@ declare interface GetFilesProps {
 }
 declare interface RenameFileProps {
   fileId: string;
-  name: string;
+  fileName: string;
   extension: string;
   path: string;
 }

@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Models } from "node-appwrite";
 import { actionsDropdownItems } from "@/constants";
@@ -24,6 +24,7 @@ import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { renameFile } from "@/lib/actions/file.actions";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +36,8 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
 
   const path = usePathname();
 
+  useEffect(() => setFileName(file.name), [file.name]); // to ensure the filename is sync with database name
+
   const closeAllModals = () => {
     setIsModalOpen(false);
     setIsDropdownOpen(false);
@@ -43,7 +46,23 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
   };
 
   const handleAction = async () => {
-    // action handling logic
+    if (!action) return;
+    setIsLoading(true);
+    let success = false;
+    const actions = {
+      rename: () =>
+        renameFile({
+          fileId: file.$id,
+          fileName,
+          extension: file.extension,
+          path,
+        }),
+      //   share: () => {}
+      //   delete: () => {}
+    };
+    success = await actions[action.value as keyof typeof actions]();
+    if (success) closeAllModals();
+    setIsLoading(false);
   };
 
   const handleRemoveUser = async (email: string) => {
@@ -80,9 +99,12 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
             <Button onClick={closeAllModals} className="modal-cancel-button">
               Cancel
             </Button>
-            <Button onClick={handleAction} className="modal-submit-button">
-              <p className="capitalize">{value}</p>
-              {isLoading && (
+            <Button
+              onClick={handleAction}
+              className="modal-submit-button"
+              type="button"
+            >
+              {isLoading ? (
                 <Image
                   src="/icons/loader.svg"
                   alt="loader"
@@ -90,6 +112,8 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                   height={24}
                   className="animate-spin"
                 />
+              ) : (
+                <p className="capitalize">{value}</p>
               )}
             </Button>
           </DialogFooter>
