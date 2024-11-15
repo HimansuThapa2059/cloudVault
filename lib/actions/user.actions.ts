@@ -57,6 +57,7 @@ export const verifyOtp = async ({ accountId, password }: varifyOtpProps) => {
       httpOnly: true,
       sameSite: "strict",
       secure: true,
+      maxAge: 30 * 24 * 60 * 60, // 30 days
     });
 
     return parseStringify({ sessionId: session.$id });
