@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { renameFile } from "@/lib/actions/file.actions";
+import { FileDetails } from "./ActionsModalContent";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,6 +88,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
               onChange={(e) => setFileName(e.target.value)}
             />
           )}
+          {value === "details" && <FileDetails file={file} />}
           {value === "delete" && (
             <p className="delete-confirmation">
               Are you sure you want to delete{" "}
