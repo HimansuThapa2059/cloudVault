@@ -1,10 +1,11 @@
 import FileCard from "@/components/FileCard";
 import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.actions";
+import { Loader2 } from "lucide-react";
 import { Models } from "node-appwrite";
-import React from "react";
+import React, { Suspense } from "react";
 
-const page = async ({ params }: SearchParamProps) => {
+const FilesList = async ({ params }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
 
   if (!["documents", "images", "media", "others"].includes(type)) {
@@ -31,7 +32,6 @@ const page = async ({ params }: SearchParamProps) => {
 
           <div className="sort-container">
             <p className="body-1 hidden text-light-200 sm:block">Sort by:</p>
-
             <Sort />
           </div>
         </div>
@@ -52,4 +52,20 @@ const page = async ({ params }: SearchParamProps) => {
   );
 };
 
-export default page;
+export default function PageWrapper(props: SearchParamProps) {
+  return (
+    <Suspense fallback={<LoadingUI />}>
+      <FilesList {...props} />
+    </Suspense>
+  );
+}
+
+// Loading Indicator Component
+function LoadingUI() {
+  //TODO: skeleton loading
+  return (
+    <div className="grid h-full place-content-center">
+      <Loader2 className="h-20 w-20 animate-spin text-brand" />
+    </div>
+  );
+}
