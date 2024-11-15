@@ -38,13 +38,17 @@ export const FileDetails = ({ file }: { file: Models.Document }) => {
   );
 };
 
-interface Props {
+interface ShareInputProps {
   file: Models.Document;
   onInputChange: React.Dispatch<React.SetStateAction<string[]>>;
   onRemove: (email: string) => void;
 }
 
-export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
+export const ShareInput = ({
+  file,
+  onInputChange,
+  onRemove,
+}: ShareInputProps) => {
   return (
     <>
       <ImageThumbnail file={file} />

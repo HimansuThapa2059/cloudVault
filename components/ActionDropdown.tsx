@@ -24,8 +24,8 @@ import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import { renameFile } from "@/lib/actions/file.actions";
-import { FileDetails } from "./ActionsModalContent";
+import { renameFile, updateFileUsers } from "@/lib/actions/file.actions";
+import { FileDetails, ShareInput } from "./ActionsModalContent";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +58,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           extension: file.extension,
           path,
         }),
-      //   share: () => {}
+      share: () => updateFileUsers({ fileId: file.$id, emails, path }),
       //   delete: () => {}
     };
     success = await actions[action.value as keyof typeof actions]();
@@ -68,6 +68,13 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
 
   const handleRemoveUser = async (email: string) => {
     // remove user handling logic
+
+    const updatedEmails = emails.filter((e) => e !== email);
+
+    const success = await updateFileUsers({ fileId: file.$id, emails, path });
+
+    if (success) setEmails(updatedEmails);
+    closeAllModals();
   };
 
   const renderDialogContent = () => {
@@ -89,6 +96,13 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
             />
           )}
           {value === "details" && <FileDetails file={file} />}
+          {value === "share" && (
+            <ShareInput
+              file={file}
+              onInputChange={setEmails}
+              onRemove={handleRemoveUser}
+            />
+          )}
           {value === "delete" && (
             <p className="delete-confirmation">
               Are you sure you want to delete{" "}
