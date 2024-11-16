@@ -1,6 +1,5 @@
-import React from "react";
-import Image from "next/image";
 import { cn, getFileIcon } from "@/lib/utils";
+import Image from "next/image";
 type ThumbnailProps = {
   type: string;
   extension: string;

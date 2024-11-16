@@ -4,7 +4,7 @@ import { getFiles } from "@/lib/actions/file.actions";
 import { getFileTypesParams } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { Models } from "node-appwrite";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 const FilesList = async ({ searchParams, params }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";

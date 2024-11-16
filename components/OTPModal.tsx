@@ -12,12 +12,12 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { sendEmailOTP } from "@/lib/actions/helpers";
 import { verifyOtp } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { sendEmailOTP } from "@/lib/actions/helpers";
 
 type OtpModalProps = {
   email: string;

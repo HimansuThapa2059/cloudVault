@@ -1,13 +1,6 @@
 "use client";
 
-import { z } from "zod";
-import Link from "next/link";
-import Image from "next/image";
-import OtpModal from "./OTPModal";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createAccount, signInUser } from "@/lib/actions/user.actions";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -16,8 +9,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { createAccount, signInUser } from "@/lib/actions/user.actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import OtpModal from "./OTPModal";
 
 type FormTypes = "signIn" | "signUp";
 

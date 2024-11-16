@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import {
   Select,
   SelectContent,
@@ -7,8 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePathname, useRouter } from "next/navigation";
 import { sortTypes } from "@/constants";
+import { usePathname, useRouter } from "next/navigation";
 
 const Sort = () => {
   const path = usePathname();

@@ -1,5 +1,4 @@
 import { cn, formatDateTime } from "@/lib/utils";
-import React from "react";
 
 export const FormattedDateTime = ({
   date,

@@ -1,22 +1,20 @@
 "use client";
-import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { Separator } from "./ui/separator";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { navItems } from "@/constants";
-import { Button } from "./ui/button";
-import FileUploader from "./header/FileUploader";
 import { signOutUser } from "@/lib/actions/user.actions";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useState } from "react";
+import FileUploader from "./header/FileUploader";
+import { Button } from "./ui/button";
+import { Separator } from "./ui/separator";
 
 type MobileNavigationProps = {
   $id: string;

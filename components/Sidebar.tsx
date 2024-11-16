@@ -1,10 +1,10 @@
 "use client";
-import { avatarPlaceholderUrl, navItems } from "@/constants";
+import { navItems } from "@/constants";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import React from "react";
 
 type SidebarProps = {
   fullName: string;
