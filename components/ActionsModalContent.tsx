@@ -44,6 +44,7 @@ interface ShareInputProps {
   onRemove: (email: string) => void;
 }
 
+// TODO : fix bug while adding multiple users in share users list
 export const ShareInput = ({
   file,
   onInputChange,

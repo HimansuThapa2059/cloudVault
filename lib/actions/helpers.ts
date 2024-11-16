@@ -30,13 +30,28 @@ export const sendEmailOTP = async (email: string) => {
   }
 };
 
-export const createQueries = (currentUser: Models.Document) => {
+export const createQueries = (
+  currentUser: Models.Document,
+  types: FileType[],
+  search: string,
+  sort: string,
+  limit?: number,
+) => {
   const queries = [
     Query.or([
       Query.equal("owner", [currentUser.$id]),
       Query.contains("users", [currentUser.email]),
     ]),
   ];
+
+  if (types.length > 0) queries.push(Query.equal("type", types));
+  if (search) queries.push(Query.contains("name", search));
+  if (limit) queries.push(Query.limit(limit));
+
+  const [sortBy, orderBy] = sort.split("-");
+  queries.push(
+    orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy),
+  );
 
   return queries;
 };

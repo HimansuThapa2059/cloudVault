@@ -1,12 +1,17 @@
 import FileCard from "@/components/FileCard";
 import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.actions";
+import { getFileTypesParams } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { Models } from "node-appwrite";
 import React, { Suspense } from "react";
 
-const FilesList = async ({ params }: SearchParamProps) => {
+const FilesList = async ({ searchParams, params }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
+  const search = ((await searchParams)?.query as string) || "";
+  const sort = ((await searchParams)?.sort as string) || "";
+
+  const types = getFileTypesParams(type) as FileType[];
 
   if (!["documents", "images", "media", "others"].includes(type)) {
     return (
@@ -18,7 +23,7 @@ const FilesList = async ({ params }: SearchParamProps) => {
     );
   }
 
-  const files = await getFiles();
+  const files = await getFiles({ types, search, sort });
 
   return (
     <div className="page-container">
